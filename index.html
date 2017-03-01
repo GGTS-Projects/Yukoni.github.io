@@ -112,7 +112,12 @@
                                     <div class="tp-caption mfnrssoftwarelargelight tp-resizeme" id="slide-1-layer-1" data-x="20" data-y="150" data-width="['auto']" data-height="['auto']" data-transform_idle="o:1;" data-transform_in="x:-50px;opacity:0;s:600;e:Power3.easeInOut;" data-transform_out="auto:auto;s:300;" data-start="700" data-splitin="none" data-splitout="none" data-responsive_offset="on" style="z-index: 5; min-width: auto; min-height: auto; white-space: nowrap; max-width: auto; max-height: auto; font-size: 64px; line-height: 60px; font-weight: ; color: rgba(255, 255, 255, 1.00);padding:0 0 0 0;border-color:rgba(0, 0, 0, 1.00);border-radius:0 0 0 0;">
                                         React & React Native
                                         <br /><span style="font-size: 35px">Mobile and Web App Development</span> 
-                                      
+                                     <br />
+                                      <h1>
+                                        <a href="" style="color: white" class="typewrite" data-period="2000" data-type='[ "React,React-Native", "Redux,Flux,Mobex", "Firebase,Express,MongoDB", "Android,IOS" ]'>
+                                            <span class="wrap"></span>
+                                        </a>
+                                        </h1>
                                     </div>
                                     <div class="tp-caption tp-resizeme" id="slide-1-layer-2" data-x="right" data-hoffset="10" data-y="center" data-voffset="" data-width="['none','none','none','none']" data-height="['none','none','none','none']" data-transform_idle="o:1;" data-transform_in="x:50px;opacity:0;s:600;e:Power3.easeInOut;" data-transform_out="auto:auto;s:300;" data-start="700" data-responsive_offset="on" style="z-index: 6; line-height: 22px;padding:0 0 0 0;border-radius:0 0 0 0;"><img src="content/software/images/home_software_slide_1_pic.png" alt="" width="797" height="603" data-no-retina>
                                     </div>
@@ -704,6 +709,65 @@
                 mobileEl.attr("src", "content/software/images/home_software_content_logo.png").width(mobileLogoW).height(mobileLogoH);
             }
         });
+    </script>
+
+    <script>
+    var TxtType = function(el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+    };
+
+    TxtType.prototype.tick = function() {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 500;
+        }
+
+        setTimeout(function() {
+        that.tick();
+        }, delta);
+    };
+
+    window.onload = function() {
+        var elements = document.getElementsByClassName('typewrite');
+        for (var i=0; i<elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-type');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+              new TxtType(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+        document.body.appendChild(css);
+    };
     </script>
 </body>
 
